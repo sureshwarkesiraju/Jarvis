@@ -3,7 +3,7 @@ import asyncio
 import assist
 from icrawler.builtin import GoogleImageCrawler
 import os
-#import spot
+import spot
 
 
 async def get_weather(city_name):
@@ -13,24 +13,24 @@ async def get_weather(city_name):
 
 
 def search(query):
-    google_Crawler = GoogleImageCrawler(storage={"root_dir": r'./images'})
+    google_Crawler = GoogleImageCrawler(storage={"root_dir": r'./'})
     google_Crawler.crawl(keyword=query, max_num=1)
 
 
 def parse_command(command):
     if "weather" in command:
-        weather_description = asyncio.run(get_weather("Chicago"))
+        weather_description = asyncio.run(get_weather("India"))
         query = "System information: " + str(weather_description)
         print(query)
         response = assist.ask_question_memory(query)
-        done = assist.TTS(response)
+        assist.TTS(response)
 
     if "search" in command:
-        files = os.listdir("./images")
-        [os.remove(os.path.join("./images", f)) for f in files]
+        files = os.listdir("./")
+        [os.remove(os.path.join("./", f)) for f in files]
         query = command.split("-")[1]
         search(query)
-'''
+
     if "play" in command:
         spot.start_music()
 
@@ -48,8 +48,7 @@ def parse_command(command):
         query = "System information: " + str(spotify_info)
         print(query)
         response = assist.ask_question_memory(query)
-        done = assist.TTS(response)
+        assist.TTS(response)
 
-'''
 
 
