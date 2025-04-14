@@ -1,15 +1,18 @@
-import python_weather
 import asyncio
 import assist
 from icrawler.builtin import GoogleImageCrawler
+import requests
 import os
-import spot
+#import spot
+
+
 
 
 async def get_weather(city_name):
-    async with python_weather.Client(unit=python_weather.IMPERIAL) as client:
-        weather = await client.get(city_name)
-        return weather
+    url = f"http://api.weatherapi.com/v1/current.json?key=77870458d0144a5389b160023251404&q={"Hyderabad"}"
+    data = requests.get(url).json()
+    weather = f"{data['location']['name']} is {data['current']['temp_c']}°C with {data['current']['condition']['text']}."
+    return weather
 
 
 def search(query):
@@ -26,11 +29,9 @@ def parse_command(command):
         assist.TTS(response)
 
     if "search" in command:
-        files = os.listdir("./")
-        [os.remove(os.path.join("./", f)) for f in files]
         query = command.split("-")[1]
         search(query)
-
+'''
     if "play" in command:
         spot.start_music()
 
@@ -50,5 +51,5 @@ def parse_command(command):
         response = assist.ask_question_memory(query)
         assist.TTS(response)
 
-
+'''
 
