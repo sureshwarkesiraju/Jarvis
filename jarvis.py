@@ -23,22 +23,30 @@ if __name__ == '__main__':
 
         # Wake word activates conversation mode
         if not conversation_active and any(hot_word in current_text for hot_word in hot_words):
-            assist.TTS("Good evening, Sir! I'm ready to assist you.")
             conversation_active = True
-            continue
+
 
         # If active, process further inputs
         if conversation_active and current_text:
             print("User:", current_text)
 
-            if any(kw in current_text for kw in ["sleep", "quiet", "mute"]):
+            if any(kw in current_text for kw in ["sleep", "quiet"]):
                 assist.TTS("Understood, Sir. Going silent.")
                 conversation_active = False
                 continue
 
+            elif any(kw in current_text for kw in ["mute"]):
+                conversation_active = False
+                continue
+
+            elif any(kw in current_text for kw in ["shutdown", "Quit"]):
+                assist.TTS("Understood, Sir. Going offline , Take care sir.")
+                conversation_active = False
+                exit(0)
+
             recorder.stop()
-            full_input = current_text + " " + time.strftime("%Y-%m-%d %H-%M-%S")
-            response = assist.ask_question_memory(full_input)
+            current_text = current_text + " " + time.strftime("%Y-%m-%d %H-%M-%S")
+            response = assist.ask_question_memory(current_text)
             print("Jarvis:", response)
             speech = response.split('#')[0]
             assist.TTS(speech)
