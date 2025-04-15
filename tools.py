@@ -9,7 +9,7 @@ import os
 
 
 async def get_weather(city_name):
-    url = f"http://api.weatherapi.com/v1/current.json?key=77870458d0144a5389b160023251404&q={"Hyderabad"}"
+    url = f"http://api.weatherapi.com/v1/current.json?key=9380d385a44744ce913180618251504&q={city_name}"
     data = requests.get(url).json()
     weather = f"{data['location']['name']} is {data['current']['temp_c']}°C with {data['current']['condition']['text']}."
     return weather
@@ -22,7 +22,7 @@ def search(query):
 
 def parse_command(command):
     if "weather" in command:
-        weather_description = asyncio.run(get_weather("India"))
+        weather_description = asyncio.run(get_weather("Hyderabad"))
         query = "System information: " + str(weather_description)
         print(query)
         response = assist.ask_question_memory(query)
