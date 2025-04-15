@@ -9,7 +9,7 @@ import os
 
 
 async def get_weather(city_name):
-    url = f"http://api.weatherapi.com/v1/current.json?key=9380d385a44744ce913180618251504&q={city_name}"
+    url = f"http://api.weatherapi.com/v1/current.json?key=YOUR_API_KEY&q={city_name}"
     data = requests.get(url).json()
     weather = f"{data['location']['name']} is {data['current']['temp_c']}°C with {data['current']['condition']['text']}."
     return weather
